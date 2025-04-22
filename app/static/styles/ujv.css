@@ -1,0 +1,19 @@
+#page {
+    display: grid;
+    grid-template-columns: 1fr 6fr;
+    grid-template-areas: "filter diagram";
+    gap: 10px;
+}
+
+#filter {
+    background-color: red;
+    grid: filter;
+    height: 100%;
+    min-width: 200px;
+}
+
+#diagram {
+    background-color: red;
+    grid: diagram;
+    height: 100%;
+}

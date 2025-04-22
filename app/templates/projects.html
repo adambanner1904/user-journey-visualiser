@@ -1,0 +1,34 @@
+{% extends "base.html" %} {% block link %}
+<link rel="stylesheet" href="static/styles/projects.css" />{%endblock%} {% block
+scripts %}
+<script src="static/scripts/projects.js"></script>
+{%endblock%} {% block title %}User journey visualiser{%endblock%} {% block
+content %}
+<div class="container">
+  <button id="add-project-button">+</button>
+
+  <dialog id="data-upload">
+    <button id="close-button">
+        Close
+    </button>
+    <h2 class="dialog-title">
+        Upload a new project
+    </h2>
+    <form method="POST" enctype="multipart/form-data">
+      <div>
+        <label for="project-name">Project Name</label>
+        <input type="text" id="project-name" />
+      </div>
+      <div>
+        <label for="data">Node Data</label>
+        <input type="file" id="data" name="data"/>
+      </div>
+      <button type="submit" class="dialog-submit">
+        Upload
+      </button>
+    </form>
+  </dialog>
+
+  <h1>Your projects</h1>
+</div>
+{% endblock %}
