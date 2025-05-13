@@ -15,14 +15,17 @@ content %}
         Upload a new project
     </h2>
     <form method="POST" enctype="multipart/form-data">
+      <!--Name of project-->
       <div>
         <label for="project-name">Project Name</label>
         <input type="text" id="project-name" name="name" required/>
       </div>
+      <!--File -->
       <div>
         <label for="data">Node Data</label>
-        <input type="file" id="data" name="data"/>
+        <input type="file" id="data" name="data" accept="text/csv"/>
       </div>
+      <!--Submit -->
       <button type="submit" class="dialog-submit">
         Upload
       </button>
