@@ -24,7 +24,7 @@ body {
   position: relative;
 }
 
-#navbar {
+#header {
     background-color: var(--dark);
 }
 
