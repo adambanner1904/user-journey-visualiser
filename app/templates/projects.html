@@ -19,11 +19,13 @@ content %}
       <div>
         <label for="project-name">Project Name</label>
         <input type="text" id="project-name" name="name" required/>
+        <p class="form-hint-text">Project name must only be characters and words delimited by '-' or '_' or spaces</p>
       </div>
       <!--File -->
       <div>
-        <label for="data">Node Data</label>
-        <input type="file" id="data" name="data" accept="text/csv"/>
+        <label for="data">Data</label>
+        <input type="file" id="data" name="data" accept="text/csv" required/>
+        <p class="form-hint-text">Must be a csv with (previous_page, page, page_views, unique_page_views) columns</p>
       </div>
       <!--Submit -->
       <button type="submit" class="dialog-submit">

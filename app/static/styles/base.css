@@ -47,8 +47,13 @@ body {
 }
 
 .container {
-  max-width: 960px;
-  margin-inline: auto;
-  padding-inline: 20px;
+    max-width: 960px;
+    margin-inline: auto;
+    padding-inline: 20px;
+}
+
+.form-hint-text {
+    font-size: 0.75rem;
+    color: gray;
 }
 
