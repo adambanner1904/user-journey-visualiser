@@ -1,3 +1,5 @@
+import logging
+
 from flask import Flask, render_template # type: ignore
 
 
@@ -8,6 +10,8 @@ def create_app():
     from .controllers.projects import projects
     app.register_blueprint(ujv)
     app.register_blueprint(projects)
+
+    logging.getLogger('werkzeug').setLevel(logging.WARN)
 
     return app
     
