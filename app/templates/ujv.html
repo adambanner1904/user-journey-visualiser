@@ -1,16 +1,32 @@
 {% extends "base.html" %}
-{% block link %} <link rel="stylesheet" href="static/styles/ujv.css">{%endblock%}
+{% block link %}
+<link rel="stylesheet" href="static/styles/ujv.css">{%endblock%}
 {% block title %}User journey visualiser{%endblock%}
 
 {% block content %}
-    <!-- <div id="page">
-        <div id="filter">
-            <button action="">
-                button
-            </button>
-        </div>
-        <div id="diagram">
+<div id="page">
+    <!--Filter Section-->
+    <div id="filter">
+        <form action="" id="filter-controls">
 
-        </div>
-    </div> -->
+            <div class="form-group" id="filter-project">
+                <label for="project">Project</label>
+                <select class="form-control" id="project">
+                    {% for project, project_formatted in projects %}
+                    <option value="{{project}}">{{project_formatted}}</option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <button type="submit" class="btn btn-primary" id="filter-submit">
+                Submit
+            </button>
+
+        </form>
+    </div>
+    <!--Graph Visualisation-->
+    <div id="diagram">
+
+    </div>
+</div>
 {% endblock %}

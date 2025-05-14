@@ -11,7 +11,7 @@ def create_app():
     app.register_blueprint(ujv)
     app.register_blueprint(projects)
 
-    logging.getLogger('werkzeug').setLevel(logging.WARN)
+    # logging.getLogger('werkzeug').setLevel(logging.WARN)
 
     return app
     
