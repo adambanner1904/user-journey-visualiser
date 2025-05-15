@@ -21,9 +21,18 @@ def drop_table(name: str) -> None:
 
 def get_tables() -> list[str]:
     with create_connection() as con:
-        return [result[0] for result in
-                con.execute("select name from sqlite_master where type= 'table';")
-                .fetchall()]
+        return flatten(
+            con.execute("select name from sqlite_master where type= 'table';")
+            .fetchall()
+        )
+
+
+def get_distinct_pages() -> list[str]:
+    with create_connection() as con:
+        return flatten(
+            con.execute("select page from temp union select previous_page from temp")
+            .fetchall()
+        )
 
 
 def get_values_from_table(table_name: str, arrow_width_column: str) -> list[tuple]:
@@ -45,3 +54,7 @@ def table_exists(name: str) -> bool:
     if name in results:
         return True
     return False
+
+
+def flatten(results: list[tuple[str]]) -> list[str]:
+    return [result[0] for result in results]
