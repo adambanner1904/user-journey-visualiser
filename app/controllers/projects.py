@@ -19,17 +19,17 @@ def add_project():
 
     if not is_valid_name(name):
         flash("Name does not match the specified format", category='error')
-        return redirect(request.url)
+        return redirect(url_for('projects.manage_projects'))
 
     formatted_name = format_name(name)
     if table_exists(formatted_name):
         flash(f"There already exists a project with the name {name}", category="error")
-        return redirect(request.url)
+        return redirect(url_for('projects.manage_projects'))
 
     # File checks
     if file.filename == '':
         flash("File is required!", category='error')
-        return redirect(request.url)
+        return redirect(url_for('projects.manage_projects'))
 
     create_table(formatted_name)
     insert_dataframe_into_table(formatted_name, pd.read_csv(file))
@@ -51,5 +51,5 @@ def format_name(name: str):
 
 
 def is_valid_name(name: str) -> bool:
-    allowed_chars = set(string.ascii_letters + '-_ ')
+    allowed_chars = set(string.ascii_letters + '-_ ' + string.digits)
     return set(name) <= allowed_chars

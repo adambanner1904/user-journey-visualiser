@@ -3,6 +3,9 @@ from app.db import get_values_from_table, get_distinct_pages
 import pandas as pd
 from pyvis.network import Network
 
+def update_graph_html(chosen_project):
+    g = Graph(chosen_project, 'page_views', 0.95)
+    g.create_graph()
 class Graph:
 
     def __init__(self
@@ -28,6 +31,8 @@ class Graph:
         self.nodes = get_distinct_pages()
         # Populates self.network with a pyvis.network.Network object
         self.create_network()
+
+        self.network.show('app/templates/graph.html', notebook=False)
 
 
 

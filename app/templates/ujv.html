@@ -7,11 +7,11 @@
 <div id="page">
     <!--Filter Section-->
     <div id="filter">
-        <form action="" id="filter-controls">
+        <form id="filter-controls" action="{{url_for('ujv.show_journey')}}" method="POST">
 
             <div class="form-group" id="filter-project">
                 <label for="project">Project</label>
-                <select class="form-control" id="project">
+                <select class="form-control" id="project" name="project">
                     {% for project, project_formatted in projects %}
                     <option value="{{project}}">{{project_formatted}}</option>
                     {% endfor %}
@@ -25,8 +25,6 @@
         </form>
     </div>
     <!--Graph Visualisation-->
-    <div id="diagram">
-
-    </div>
+    <iframe src="{{url_for('ujv.get_graph')}}" frameborder="1" height="100%" width="100%"></iframe>
 </div>
 {% endblock %}
