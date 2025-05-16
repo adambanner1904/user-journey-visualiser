@@ -25,9 +25,9 @@
 }
 
 #filter-submit {
-    width: min(150px, 85%)
+    width: min(150px, 85%);
 }
 
-#filter-project {
+#filter-options {
     width: 100%;
 }

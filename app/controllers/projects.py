@@ -46,7 +46,6 @@ def delete_project(name):
 def format_name(name: str):
     if not is_valid_name(name):
         return redirect(request.url)
-    print(f'My name is {name}')
     return name.replace('-', '_').replace(' ', '_')
 
 

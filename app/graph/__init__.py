@@ -1,17 +1,20 @@
 
-from app.db import get_values_from_table, get_distinct_pages
+from app.db import get_values_from_table
 import pandas as pd
 from pyvis.network import Network
 
-def update_graph_html(chosen_project):
-    g = Graph(chosen_project, 'page_views', 0.95)
+
+def write_graph_html(chosen_project, precision=0.9):
+    g = Graph(chosen_project, 'unique_page_views', precision)
     g.create_graph()
+
+
 class Graph:
 
     def __init__(self
                  , table_name: str
-                 ,arrow_width_column: str
-                 ,graph_precision:float):
+                 , arrow_width_column: str
+                 , graph_precision: float):
 
         self.table_name = table_name
         self.arrow_width_column = arrow_width_column
@@ -28,32 +31,40 @@ class Graph:
         # Populates self.filtered_df
         self.filter_dataset()
         # Populates nodes with a list of distinct page names
-        self.nodes = get_distinct_pages()
+        self.create_nodes()
         # Populates self.network with a pyvis.network.Network object
         self.create_network()
 
         self.network.show('app/templates/graph.html', notebook=False)
 
-
-
+    def create_dataframe(self):
+        # Results are returned ordered for the filtering
+        results = get_values_from_table(self.table_name, self.arrow_width_column)
+        self.df = pd.DataFrame(results, columns=['previous_page', 'page', 'page_views', 'unique_page_views'])
 
     def filter_dataset(self):
         assert 0 < self.graph_precision <= 1
         cumsum = self.df[self.arrow_width_column].cumsum() / self.df[self.arrow_width_column].sum()
         self.filtered_df = self.df[cumsum <= self.graph_precision]
 
-    def create_dataframe(self):
-        # Results are returned ordered for the filtering
-        results = get_values_from_table(self.table_name, self.arrow_width_column)
-        self.df = pd.DataFrame(results, columns=['previous_page', 'page', self.arrow_width_column])
+    def create_nodes(self):
+        self.nodes = pd.concat([self.filtered_df.page, self.filtered_df.previous_page]).unique().tolist()
 
     def create_network(self):
         self.network = Network(height='100%'
-                     , width='100%'
-                     , directed=True
-                     , notebook=False)
+                               , width='100%'
+                               , directed=True
+                               , notebook=False)
 
-        self.network.add_nodes(self.nodes, title=self.nodes)
+        # TODO: Add node attributes
+        #  label: edit to remove root url and display in legend
+        #  size: page_traffic, unique_page_traffic into node
+        #  color: drop_out_rate, time_on_page
+        #  title: display all metrics ^^
+        # Handle entrance node
+        self.network.add_node('(entrance)', '(entrance)', shape='diamond', color='red')
+        for node in self.nodes:
+            self.network.add_node(n_id=node, title=node)
 
         for _, row in self.filtered_df.iterrows():
             # TODO: normalise width first
@@ -63,14 +74,17 @@ class Graph:
 
             title = f"{self.arrow_width_column}: {row[self.arrow_width_column]}"
             self.network.add_edge(source=row.previous_page
-                        , to=row.page
-                        , value=width)
+                                  , to=row.page
+                                  , value=width
+                                  , title=title)
+
+        self.network.toggle_physics(True)
         self.network.set_edge_smooth("dynamic")
         self.network.set_options(
             f"""var options = {{
                   "nodes": {{
                     "font": {{
-                        "size": 10
+                        "size": 18
                         }}
                     }},
                   "physics": {{

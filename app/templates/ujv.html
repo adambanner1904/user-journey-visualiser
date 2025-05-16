@@ -8,16 +8,25 @@
     <!--Filter Section-->
     <div id="filter">
         <form id="filter-controls" action="{{url_for('ujv.show_journey')}}" method="POST">
-
-            <div class="form-group" id="filter-project">
-                <label for="project">Project</label>
-                <select class="form-control" id="project" name="project">
-                    {% for project, project_formatted in projects %}
-                    <option value="{{project}}">{{project_formatted}}</option>
-                    {% endfor %}
-                </select>
+            <div id="filter-options">
+                <div class="form-group" id="filter-project">
+                    <label for="project">Project</label>
+                    <select class="form-control filter-option" id="project" name="project">
+                        {% for project, project_formatted in projects %}
+                        {% if project == chosen_project %}
+                        <option value="{{project}}" selected>{{project_formatted}}</option>
+                        {% else %}
+                        <option value="{{project}}">{{project_formatted}}</option>
+                        {% endif %}
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="form-group" id="filter-precision">
+                    <label for="precision">Graph Precision</label>
+                    <input class="form-control filter-option" type="number" id="precision" name="precision" min="0.01"
+                           max="1" step="0.01" value="{{chosen_precision}}">
+                </div>
             </div>
-
             <button type="submit" class="btn btn-primary" id="filter-submit">
                 Submit
             </button>

@@ -26,19 +26,10 @@ def get_tables() -> list[str]:
             .fetchall()
         )
 
-
-def get_distinct_pages() -> list[str]:
-    with create_connection() as con:
-        return flatten(
-            con.execute("select page from temp union select previous_page from temp")
-            .fetchall()
-        )
-
-
 def get_values_from_table(table_name: str, arrow_width_column: str) -> list[tuple]:
     with create_connection() as con:
         return con.execute(
-            f'select previous_page, page, {arrow_width_column} from "{table_name}" order by {arrow_width_column} DESC').fetchall()
+            f'select * from "{table_name}" order by {arrow_width_column} DESC').fetchall()
 
 
 def insert_dataframe_into_table(table_name: str, df: pd.DataFrame) -> None:
