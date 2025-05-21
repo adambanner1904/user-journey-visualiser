@@ -21,6 +21,18 @@
                         {% endfor %}
                     </select>
                 </div>
+                <div class="form-group" id="filter-edge-width">
+                    <label for="edge-width">Edge Width Attribute</label>
+                    <select class="form-control filter-option" id="edge-width" name="edge-width">
+                        {% for edge_width, edge_width_formatted in edge_width_options %}
+                        {% if edge_width == chosen_edge_width %}
+                        <option value="{{edge_width}}" selected>{{edge_width_formatted}}</option>
+                        {% else %}
+                        <option value="{{edge_width}}">{{edge_width_formatted}}</option>
+                        {% endif %}
+                        {% endfor %}
+                    </select>
+                </div>
                 <div class="form-group" id="filter-precision">
                     <label for="precision">Graph Precision</label>
                     <input class="form-control filter-option" type="number" id="precision" name="precision" min="0.01"

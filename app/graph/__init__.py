@@ -4,8 +4,8 @@ import pandas as pd
 from pyvis.network import Network
 
 
-def write_graph_html(chosen_project, precision=0.9):
-    g = Graph(chosen_project, 'unique_page_views', precision)
+def write_graph_html(chosen_project, chosen_edge_width, precision=0.9):
+    g = Graph(chosen_project, chosen_edge_width, precision)
     g.create_graph()
 
 
@@ -41,6 +41,8 @@ class Graph:
         # Results are returned ordered for the filtering
         results = get_values_from_table(self.table_name, self.arrow_width_column)
         self.df = pd.DataFrame(results, columns=['previous_page', 'page', 'page_views', 'unique_page_views'])
+        for col in ["page", "previous_page"]:
+            self.df[col] = self.df[col].str.replace("/", "/\n")
 
     def filter_dataset(self):
         assert 0 < self.graph_precision <= 1
