@@ -2,6 +2,7 @@
 from app.db import get_values_from_table
 import pandas as pd
 from pyvis.network import Network
+import matplotlib.colors as mcolors
 
 
 def write_graph_html(chosen_project, chosen_edge_width, precision=0.9):
@@ -22,6 +23,7 @@ class Graph:
 
         self.df = None
         self.filtered_df = None
+        self.width_normaliser = None
         self.nodes = None
         self.network = None
 
@@ -49,6 +51,14 @@ class Graph:
         cumsum = self.df[self.arrow_width_column].cumsum() / self.df[self.arrow_width_column].sum()
         self.filtered_df = self.df[cumsum <= self.graph_precision]
 
+        # Since we have the filtered df we can create the normaliser
+        self.width_normaliser = mcolors.Normalize(
+            vmin=self.filtered_df[self.arrow_width_column].min(),
+            vmax=self.filtered_df[self.arrow_width_column].max()
+        )
+
+
+
     def create_nodes(self):
         self.nodes = pd.concat([self.filtered_df.page, self.filtered_df.previous_page]).unique().tolist()
 
@@ -69,8 +79,7 @@ class Graph:
             self.network.add_node(n_id=node, title=node)
 
         for _, row in self.filtered_df.iterrows():
-            # TODO: normalise width first
-            width = row[self.arrow_width_column]
+            width = self.width_normaliser(row[self.arrow_width_column])
 
             # TODO: add colour column
 
@@ -100,3 +109,6 @@ class Graph:
                   }}
                 }}
                 """)
+
+def default_graph():
+    return Graph("pay_online", "unique_page_views", 0.9)
