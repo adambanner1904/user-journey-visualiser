@@ -1,6 +1,4 @@
-import logging
-
-from flask import Flask, render_template # type: ignore
+from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 
 db = SQLAlchemy()

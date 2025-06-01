@@ -1,5 +1,4 @@
 
-from app.db import get_values_from_table
 import pandas as pd
 from pyvis.network import Network
 import matplotlib.colors as mcolors
