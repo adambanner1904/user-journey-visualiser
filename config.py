@@ -1,5 +1,6 @@
 class Config:
     TESTING = False
+    SQLALCHEMY_ECHO = True
     TABLES = ('edge', 'node', 'project', 'service')
 
 
