@@ -5,12 +5,5 @@ Home
 
 {% block content %}
 <h1 class="title-lg">Digital Journey Creator and Explorer</h1>
-<ul>
-    <li>
-        <a href="#">Journey Creator > </a>
-    </li>
-    <li>
-        <a href="#">Journey Explorer > </a>
-    </li>
-</ul>
+<a href="{{url_for('projects.index')}}" class="text-lg">My Projects</a>
 {% endblock %}
