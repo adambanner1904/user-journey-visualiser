@@ -1,5 +1,5 @@
 import pytest
-from app import create_app, create_db, db
+from app import create_app, db
 
 @pytest.fixture
 def test_app():

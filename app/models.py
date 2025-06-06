@@ -45,13 +45,18 @@ class Endpoint(db.Model):
     sources: Mapped[list["Link"]] = relationship(back_populates="source")
     targets: Mapped[list["Link"]] = relationship(back_populates="target")
 
+    # has default
+    has_explicit_event: Mapped[bool] = mapped_column(default=False)
+
 
 class Link(db.Model):
     id: Mapped[int] = mapped_column(primary_key=True)
     source_node_id: Mapped[int] = mapped_column(ForeignKey("endpoint.id"))
     target_node_id: Mapped[int] = mapped_column(ForeignKey("endpoint.id"))
-    method: Mapped[str] = mapped_column(default="GET")
 
     # to 1
-    source: Mapped["Endpoint"] = relationship(back_populates="sources", default=None)
-    target: Mapped["Endpoint"] = relationship(back_populates="targets", default=None)
+    source: Mapped["Endpoint"] = relationship(back_populates="sources")
+    target: Mapped["Endpoint"] = relationship(back_populates="targets")
+
+    # has default
+    method: Mapped[str] = mapped_column(default="GET")
